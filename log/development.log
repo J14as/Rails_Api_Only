@@ -1,0 +1,877 @@
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2024-04-27 18:08:01.760493', '2024-04-27 18:08:01.760497') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20240427180426)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20240427180426') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateFacts (20240427180446)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "facts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "fact" varchar, "likes" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_30df9dc7e4"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_facts_on_user_id" ON "facts" ("user_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20240427180446') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/api/v1/users" for ::1 at 2024-04-27 23:54:52 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V1::UsersController#index as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 217ms (Views: 1.7ms | ActiveRecord: 6.7ms | Allocations: 16530)
+
+
+Started GET "/favicon.ico" for ::1 at 2024-04-27 23:54:52 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("username", "password", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["username", "Oliver"], ["password", "[FILTERED]"], ["created_at", "2024-04-27 18:28:40.747080"], ["updated_at", "2024-04-27 18:28:40.747080"]]
+  [1m[36mTRANSACTION (2.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mFact Create (0.2ms)[0m  [1m[32mINSERT INTO "facts" ("user_id", "fact", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["user_id", 1], ["fact", "Wiley Hardeman Post was the first pilot to fly solo around the world."], ["likes", 1], ["created_at", "2024-04-27 18:29:08.482258"], ["updated_at", "2024-04-27 18:29:08.482258"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mFact Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "facts"[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mFact Create (0.2ms)[0m  [1m[32mINSERT INTO "facts" ("user_id", "fact", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["user_id", 1], ["fact", "Life is never like a straight road , it have ups and downs too."], ["likes", 2], ["created_at", "2024-04-27 18:31:40.955446"], ["updated_at", "2024-04-27 18:31:40.955446"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mFact Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "facts"[0m
+Started GET "/api/v1/users" for ::1 at 2024-04-28 00:02:16 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V1::UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 92ms (Views: 27.3ms | ActiveRecord: 6.4ms | Allocations: 19680)
+
+
+Started GET "/api/v1/facts" for ::1 at 2024-04-28 00:02:30 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/facts"):
+  
+Started GET "/api/v1/1/facts" for ::1 at 2024-04-28 00:03:20 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/1/facts"):
+  
+Started GET "/api/v1/1/facts" for ::1 at 2024-04-28 00:03:25 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/1/facts"):
+  
+Started GET "/api/v1/1/facts" for ::1 at 2024-04-28 00:03:26 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/1/facts"):
+  
+Started GET "/api/v1/1/facts" for ::1 at 2024-04-28 00:03:26 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/1/facts"):
+  
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-28 00:03:50 +0530
+  
+SyntaxError (C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:32: syntax error, unexpected integer literal, expecting literal content or terminator or tSTRING_DBEG or tSTRING_DVAR
+...son: @fact.errors, status: :400
+...                            ^~~
+C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:56: syntax error, unexpected end-of-input):
+  
+app/controllers/api/v1/facts_controller.rb:32: syntax error, unexpected integer literal, expecting literal content or terminator or tSTRING_DBEG or tSTRING_DVAR
+app/controllers/api/v1/facts_controller.rb:56: syntax error, unexpected end-of-input
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-28 00:05:33 +0530
+  
+SyntaxError (C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:56: syntax error, unexpected end-of-input):
+  
+app/controllers/api/v1/facts_controller.rb:56: syntax error, unexpected end-of-input
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-28 00:06:06 +0530
+Processing by Api::V1::FactsController#index as HTML
+  Parameters: {"user_id"=>"1"}
+  [1m[36mFact Load (0.4ms)[0m  [1m[34mSELECT "facts".* FROM "facts"[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:7:in `index'
+Completed 200 OK in 44ms (Views: 20.4ms | ActiveRecord: 9.6ms | Allocations: 8040)
+
+
+Started GET "/api/v1/users" for ::1 at 2024-04-28 00:18:00 +0530
+Processing by Api::V1::UsersController#index as */*
+  [1m[36mUser Load (11.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 34ms (Views: 5.8ms | ActiveRecord: 20.5ms | Allocations: 4189)
+
+
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-28 00:18:17 +0530
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"1"}
+  [1m[36mFact Load (0.3ms)[0m  [1m[34mSELECT "facts".* FROM "facts"[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:7:in `index'
+Completed 200 OK in 5ms (Views: 4.8ms | ActiveRecord: 0.3ms | Allocations: 722)
+
+
+Started PATCH "/api/v1/users/1/facts" for ::1 at 2024-04-28 00:19:47 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users/1/facts"):
+  
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-28 00:20:02 +0530
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"1"}
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts"[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:7:in `index'
+Completed 200 OK in 12ms (Views: 11.1ms | ActiveRecord: 0.1ms | Allocations: 691)
+
+
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-28 17:35:08 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"1"}
+  [1m[36mFact Load (0.4ms)[0m  [1m[34mSELECT "facts".* FROM "facts"[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:7:in `index'
+Completed 200 OK in 165ms (Views: 56.9ms | ActiveRecord: 12.1ms | Allocations: 20985)
+
+
+Started PATCH "/api/v1/users/1/facts" for ::1 at 2024-04-28 17:36:30 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users/1/facts"):
+  
+Started PATCH "/api/v1/users/1/facts" for ::1 at 2024-04-28 17:48:58 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users/1/facts"):
+  
+Started PATCH "/api/v1/users/1/facts/1" for ::1 at 2024-04-28 17:53:16 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"facts"=>{"id"=>1, "user_id"=>1, "fact"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>12}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+Completed 500 Internal Server Error in 0ms (ActiveRecord: 0.0ms | Allocations: 147)
+
+
+  
+NoMethodError (undefined method `set_fact' for #<Api::V1::FactsController:0x0000000000e150>):
+  
+activesupport (7.1.3.2) lib/active_support/callbacks.rb:403:in `block in make_lambda'
+activesupport (7.1.3.2) lib/active_support/callbacks.rb:183:in `block (2 levels) in halting_and_conditional'
+actionpack (7.1.3.2) lib/abstract_controller/callbacks.rb:34:in `block (2 levels) in <module:Callbacks>'
+activesupport (7.1.3.2) lib/active_support/callbacks.rb:184:in `block in halting_and_conditional'
+activesupport (7.1.3.2) lib/active_support/callbacks.rb:598:in `block in invoke_before'
+activesupport (7.1.3.2) lib/active_support/callbacks.rb:598:in `each'
+activesupport (7.1.3.2) lib/active_support/callbacks.rb:598:in `invoke_before'
+activesupport (7.1.3.2) lib/active_support/callbacks.rb:109:in `run_callbacks'
+actionpack (7.1.3.2) lib/abstract_controller/callbacks.rb:258:in `process_action'
+actionpack (7.1.3.2) lib/action_controller/metal/rescue.rb:25:in `process_action'
+actionpack (7.1.3.2) lib/action_controller/metal/instrumentation.rb:74:in `block in process_action'
+activesupport (7.1.3.2) lib/active_support/notifications.rb:206:in `block in instrument'
+activesupport (7.1.3.2) lib/active_support/notifications/instrumenter.rb:58:in `instrument'
+activesupport (7.1.3.2) lib/active_support/notifications.rb:206:in `instrument'
+actionpack (7.1.3.2) lib/action_controller/metal/instrumentation.rb:73:in `process_action'
+actionpack (7.1.3.2) lib/action_controller/metal/params_wrapper.rb:261:in `process_action'
+activerecord (7.1.3.2) lib/active_record/railties/controller_runtime.rb:32:in `process_action'
+actionpack (7.1.3.2) lib/abstract_controller/base.rb:160:in `process'
+actionpack (7.1.3.2) lib/action_controller/metal.rb:227:in `dispatch'
+actionpack (7.1.3.2) lib/action_controller/metal.rb:309:in `dispatch'
+actionpack (7.1.3.2) lib/action_dispatch/routing/route_set.rb:49:in `dispatch'
+actionpack (7.1.3.2) lib/action_dispatch/routing/route_set.rb:32:in `serve'
+actionpack (7.1.3.2) lib/action_dispatch/journey/router.rb:51:in `block in serve'
+actionpack (7.1.3.2) lib/action_dispatch/journey/router.rb:131:in `block in find_routes'
+actionpack (7.1.3.2) lib/action_dispatch/journey/router.rb:124:in `each'
+actionpack (7.1.3.2) lib/action_dispatch/journey/router.rb:124:in `find_routes'
+actionpack (7.1.3.2) lib/action_dispatch/journey/router.rb:32:in `serve'
+actionpack (7.1.3.2) lib/action_dispatch/routing/route_set.rb:882:in `call'
+rack (3.0.10) lib/rack/etag.rb:29:in `call'
+rack (3.0.10) lib/rack/conditional_get.rb:43:in `call'
+rack (3.0.10) lib/rack/head.rb:15:in `call'
+activerecord (7.1.3.2) lib/active_record/migration.rb:655:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+activesupport (7.1.3.2) lib/active_support/callbacks.rb:101:in `run_callbacks'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/callbacks.rb:28:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/actionable_exceptions.rb:16:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/debug_exceptions.rb:29:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (7.1.3.2) lib/rails/rack/logger.rb:37:in `call_app'
+railties (7.1.3.2) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (7.1.3.2) lib/active_support/tagged_logging.rb:135:in `block in tagged'
+activesupport (7.1.3.2) lib/active_support/tagged_logging.rb:39:in `tagged'
+activesupport (7.1.3.2) lib/active_support/tagged_logging.rb:135:in `tagged'
+activesupport (7.1.3.2) lib/active_support/broadcast_logger.rb:240:in `method_missing'
+railties (7.1.3.2) lib/rails/rack/logger.rb:24:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/remote_ip.rb:92:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/request_id.rb:28:in `call'
+rack (3.0.10) lib/rack/runtime.rb:24:in `call'
+activesupport (7.1.3.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/server_timing.rb:59:in `block in call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/server_timing.rb:24:in `collect_events'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/server_timing.rb:58:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/static.rb:25:in `call'
+rack (3.0.10) lib/rack/sendfile.rb:114:in `call'
+actionpack (7.1.3.2) lib/action_dispatch/middleware/host_authorization.rb:141:in `call'
+railties (7.1.3.2) lib/rails/engine.rb:536:in `call'
+puma (6.4.2) lib/puma/configuration.rb:272:in `call'
+puma (6.4.2) lib/puma/request.rb:100:in `block in handle_request'
+puma (6.4.2) lib/puma/thread_pool.rb:378:in `with_force_shutdown'
+puma (6.4.2) lib/puma/request.rb:99:in `handle_request'
+puma (6.4.2) lib/puma/server.rb:464:in `process_client'
+puma (6.4.2) lib/puma/server.rb:245:in `block in run'
+puma (6.4.2) lib/puma/thread_pool.rb:155:in `block in spawn_thread'
+Started PATCH "/api/v1/users/1/facts/1" for ::1 at 2024-04-28 17:56:56 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"facts"=>{"id"=>1, "user_id"=>1, "fact"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>12}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+Completed 500 Internal Server Error in 19ms (ActiveRecord: 16.6ms | Allocations: 219)
+
+
+  
+NameError (undefined local variable or method `c' for main:Object):
+  
+app/models/user.rb:1:in `<main>'
+app/controllers/api/v1/facts_controller.rb:48:in `set_user'
+Started PATCH "/api/v1/users/1/facts" for ::1 at 2024-04-28 17:57:38 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users/1/facts"):
+  
+Started PATCH "/api/v1/users/1/facts" for ::1 at 2024-04-28 18:00:12 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users/1/facts"):
+  
+Started PATCH "/api/v1/users/facts/1" for ::1 at 2024-04-28 18:00:40 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users/facts/1"):
+  
+Started PATCH "/api/v1/facts/1" for ::1 at 2024-04-28 18:01:24 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/facts/1"):
+  
+Started PATCH "/api/v1/facts/" for ::1 at 2024-04-28 18:01:30 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/facts"):
+  
+Started GET "/api/v1/facts" for ::1 at 2024-04-28 18:01:36 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/facts"):
+  
+Started GET "/api/v1/facts" for ::1 at 2024-04-28 18:02:19 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/facts"):
+  
+Started GET "/api/v1/facts" for ::1 at 2024-04-28 18:02:27 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/facts"):
+  
+Started GET "/api/v1/users" for ::1 at 2024-04-28 18:03:26 +0530
+Processing by Api::V1::UsersController#index as */*
+Completed 500 Internal Server Error in 5ms (ActiveRecord: 0.0ms | Allocations: 215)
+
+
+  
+NameError (undefined local variable or method `c' for main:Object):
+  
+app/models/user.rb:1:in `<main>'
+app/controllers/api/v1/users_controller.rb:6:in `index'
+Started GET "/api/v1/users" for ::1 at 2024-04-28 18:04:01 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V1::UsersController#index as */*
+Completed 500 Internal Server Error in 25ms (ActiveRecord: 0.0ms | Allocations: 2649)
+
+
+  
+NameError (undefined local variable or method `c' for main:Object):
+  
+app/models/user.rb:1:in `<main>'
+app/controllers/api/v1/users_controller.rb:6:in `index'
+Started GET "/" for ::1 at 2024-04-28 18:04:18 +0530
+Processing by Rails::WelcomeController#index as HTML
+  Rendering C:/Software/Ruby32-x64/lib/ruby/gems/3.2.0/gems/railties-7.1.3.2/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered C:/Software/Ruby32-x64/lib/ruby/gems/3.2.0/gems/railties-7.1.3.2/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.6ms | Allocations: 375)
+Completed 200 OK in 103ms (Views: 19.8ms | ActiveRecord: 0.0ms | Allocations: 5513)
+
+
+Started GET "/api/v1/users" for ::1 at 2024-04-28 18:04:30 +0530
+Processing by Api::V1::UsersController#index as HTML
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.0ms | Allocations: 143)
+
+
+  
+NameError (undefined local variable or method `c' for main:Object):
+  
+app/models/user.rb:1:in `<main>'
+app/controllers/api/v1/users_controller.rb:6:in `index'
+Started GET "/favicon.ico" for ::1 at 2024-04-28 18:04:30 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/api/v1/users" for ::1 at 2024-04-28 18:06:40 +0530
+Processing by Api::V1::UsersController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms | Allocations: 211)
+
+
+  
+NameError (undefined local variable or method `c' for main:Object):
+  
+app/models/user.rb:1:in `<main>'
+app/controllers/api/v1/users_controller.rb:6:in `index'
+Started GET "/api/v1/users" for ::1 at 2024-04-28 18:08:26 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V1::UsersController#index as */*
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 136ms (Views: 40.3ms | ActiveRecord: 15.1ms | Allocations: 19732)
+
+
+Started GET "/api/v1/users/facts/1" for ::1 at 2024-04-28 18:08:43 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/users/facts/1"):
+  
+Started GET "/api/v1/facts/1" for ::1 at 2024-04-28 18:08:52 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/facts/1"):
+  
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-28 18:22:17 +0530
+  
+SyntaxError (C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:43: syntax error, unexpected label
+...         render json: (message: 'Fact successfully deleted.'...
+...                       ^~~~~~~~
+C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:46: syntax error, unexpected string literal, expecting `do' or '{' or '('
+...         render json: {errors 'Unable to delete fact.'}, sta...
+...                              ^
+C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:62: syntax error, unexpected end-of-input, expecting `end' or dummy end
+    end
+       ^
+):
+  
+app/controllers/api/v1/facts_controller.rb:43: syntax error, unexpected label
+app/controllers/api/v1/facts_controller.rb:46: syntax error, unexpected string literal, expecting `do' or '{' or '('
+app/controllers/api/v1/facts_controller.rb:62: syntax error, unexpected end-of-input, expecting `end' or dummy end
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-28 18:22:56 +0530
+  
+SyntaxError (C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:43: syntax error, unexpected label
+...         render json: (message: 'Fact successfully deleted.'...
+...                       ^~~~~~~~
+C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:46: syntax error, unexpected string literal, expecting `do' or '{' or '('
+...         render json: {errors 'Unable to delete fact.'}, sta...
+...                              ^
+):
+  
+app/controllers/api/v1/facts_controller.rb:43: syntax error, unexpected label
+app/controllers/api/v1/facts_controller.rb:46: syntax error, unexpected string literal, expecting `do' or '{' or '('
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-28 18:23:37 +0530
+  
+SyntaxError (C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:43: syntax error, unexpected label
+...         render json: (message: 'Fact successfully deleted.'...
+...                       ^~~~~~~~
+):
+  
+app/controllers/api/v1/facts_controller.rb:43: syntax error, unexpected label
+Started GET "/api/v1/users" for ::1 at 2024-04-28 18:24:57 +0530
+Processing by Api::V1::UsersController#index as HTML
+  [1m[36mUser Load (12.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 41ms (Views: 5.2ms | ActiveRecord: 21.0ms | Allocations: 4175)
+
+
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-28 18:25:12 +0530
+  
+SyntaxError (C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:43: syntax error, unexpected label
+...         render json: (message: 'Fact successfully deleted.'...
+...                       ^~~~~~~~
+):
+  
+app/controllers/api/v1/facts_controller.rb:43: syntax error, unexpected label
+Started GET "/api/v1/users" for ::1 at 2024-04-28 18:31:42 +0530
+Processing by Api::V1::UsersController#index as */*
+  [1m[36mUser Load (6.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 36ms (Views: 9.9ms | ActiveRecord: 10.6ms | Allocations: 4177)
+
+
+Started PATCH "/api/v1/users" for ::1 at 2024-04-28 18:32:25 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users"):
+  
+Started PATCH "/api/v1/users" for ::1 at 2024-04-28 18:32:51 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users"):
+  
+Started GET "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 11:32:34 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V1::FactsController#show as */*
+  Parameters: {"users"=>{"id"=>1, "username"=>"Olive", "password"=>"[FILTERED]"}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:50:in `set_fact'
+Completed 200 OK in 150ms (Views: 0.7ms | ActiveRecord: 7.1ms | Allocations: 24339)
+
+
+Started PATCH "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 11:33:32 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"id"=>"1", "user_id"=>"1", "fact"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>12}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.1ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:50:in `set_fact'
+Completed 400 Bad Request in 4ms (ActiveRecord: 0.2ms | Allocations: 1157)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: facts):
+  
+app/controllers/api/v1/facts_controller.rb:55:in `fact_params'
+app/controllers/api/v1/facts_controller.rb:29:in `update'
+Started PATCH "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 11:37:32 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"users"=>{"facts"=>{"id"=>1, "user_id"=>1, "fact"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>12}}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.1ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:50:in `set_fact'
+Completed 400 Bad Request in 5ms (ActiveRecord: 0.2ms | Allocations: 1102)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: facts):
+  
+app/controllers/api/v1/facts_controller.rb:55:in `fact_params'
+app/controllers/api/v1/facts_controller.rb:29:in `update'
+Started PATCH "/api/v1/users/1/fact/1" for ::1 at 2024-04-29 11:38:15 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users/1/fact/1"):
+  
+Started PATCH "/api/v1/users/1/fact/1" for ::1 at 2024-04-29 11:38:24 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users/1/fact/1"):
+  
+Started PATCH "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 11:39:10 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"users"=>{"facts"=>{"id"=>1, "user_id"=>1, "fact"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>12}}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:50:in `set_fact'
+Completed 400 Bad Request in 19ms (ActiveRecord: 0.4ms | Allocations: 1088)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: facts):
+  
+app/controllers/api/v1/facts_controller.rb:55:in `fact_params'
+app/controllers/api/v1/facts_controller.rb:29:in `update'
+Started PUT "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 11:40:45 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"users"=>{"facts"=>{"id"=>1, "user_id"=>1, "fact"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.3ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:50:in `set_fact'
+Completed 400 Bad Request in 13ms (ActiveRecord: 0.5ms | Allocations: 1102)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: facts):
+  
+app/controllers/api/v1/facts_controller.rb:55:in `fact_params'
+app/controllers/api/v1/facts_controller.rb:29:in `update'
+Started PUT "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 11:41:33 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"users"=>{"facts"=>{"id"=>1, "user_id"=>1, "fact"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ (rdbg)/C:/Users/Dell/rest-api-guide/app/controllers/api/v1/facts_controller.rb:1:in `set_fact'
+  [1m[36mFact Load (0.3ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:51:in `set_fact'
+Completed 400 Bad Request in 166619ms (ActiveRecord: 14.9ms | Allocations: 271353)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: facts):
+  
+app/controllers/api/v1/facts_controller.rb:56:in `fact_params'
+app/controllers/api/v1/facts_controller.rb:29:in `update'
+Started PUT "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 11:45:22 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"users"=>{"facts"=>{"id"=>1, "user_id"=>1, "fact"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:47:in `set_user'
+  [1m[36mFact Load (0.5ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:52:in `set_fact'
+Completed 400 Bad Request in 69686ms (ActiveRecord: 30.5ms | Allocations: 273678)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: facts):
+  
+app/controllers/api/v1/facts_controller.rb:57:in `fact_params'
+app/controllers/api/v1/facts_controller.rb:30:in `update'
+Started PUT "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 11:46:46 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"users"=>{"facts"=>{"id"=>1, "user_id"=>1, "fact"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:47:in `set_user'
+  [1m[36mFact Load (0.3ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:52:in `set_fact'
+Completed 400 Bad Request in 148832ms (ActiveRecord: 18.7ms | Allocations: 304351)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: facts):
+  
+app/controllers/api/v1/facts_controller.rb:58:in `fact_params'
+app/controllers/api/v1/facts_controller.rb:30:in `update'
+Started PUT "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 11:49:26 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"users"=>{"facts"=>{"id"=>1, "user_id"=>1, "fact"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:47:in `set_user'
+  [1m[36mFact Load (0.5ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:52:in `set_fact'
+Completed 400 Bad Request in 55526ms (ActiveRecord: 13.3ms | Allocations: 151387)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: fact):
+  
+app/controllers/api/v1/facts_controller.rb:57:in `fact_params'
+app/controllers/api/v1/facts_controller.rb:30:in `update'
+Started PUT "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 11:52:36 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"facts"=>{"user_id"=>1, "content"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:47:in `set_user'
+  [1m[36mFact Load (0.3ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:52:in `set_fact'
+[31mUnpermitted parameter: :content. Context: { controller: Api::V1::FactsController, action: update, request: #<ActionDispatch::Request:0x000002279d7daca0>, params: {"facts"=>{"user_id"=>1, "content"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}, "controller"=>"api/v1/facts", "action"=>"update", "user_id"=>"1", "id"=>"1", "fact"=>{}} }[0m
+[31mUnpermitted parameter: :content. Context: { controller: Api::V1::FactsController, action: update, request: #<ActionDispatch::Request:0x000002279d7daca0>, params: {"facts"=>{"user_id"=>1, "content"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}, "controller"=>"api/v1/facts", "action"=>"update", "user_id"=>"1", "id"=>"1", "fact"=>{}} }[0m
+[31mUnpermitted parameter: :content. Context: { controller: Api::V1::FactsController, action: update, request: #<ActionDispatch::Request:0x000002279d7daca0>, params: {"facts"=>{"user_id"=>1, "content"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}, "controller"=>"api/v1/facts", "action"=>"update", "user_id"=>"1", "id"=>"1", "fact"=>{}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:30:in `update'
+  [1m[36mFact Update (8.3ms)[0m  [1m[33mUPDATE "facts" SET "likes" = ?, "updated_at" = ? WHERE "facts"."id" = ?[0m  [["likes", 13], ["updated_at", "2024-04-29 06:24:34.385898"], ["id", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:30:in `update'
+  [1m[36mTRANSACTION (5.4ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:30:in `update'
+Completed 200 OK in 115181ms (Views: 4.1ms | ActiveRecord: 23.5ms | Allocations: 189868)
+
+
+Started GET "/api/v1/users" for ::1 at 2024-04-29 11:55:09 +0530
+Processing by Api::V1::UsersController#index as */*
+  Parameters: {"facts"=>{"user_id"=>1, "content"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}, "user"=>{}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 8ms (Views: 6.2ms | ActiveRecord: 7.3ms | Allocations: 3027)
+
+
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-29 12:02:06 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (3.6ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 142ms (Views: 27.5ms | ActiveRecord: 10.7ms | Allocations: 29847)
+
+
+Started POST "/api/v1/users" for ::1 at 2024-04-29 12:24:35 +0530
+Processing by Api::V1::UsersController#create as */*
+  Parameters: {"users"=>{"username"=>"Thompson", "password"=>"[FILTERED]"}, "user"=>{}}
+Completed 400 Bad Request in 1ms (ActiveRecord: 0.0ms | Allocations: 207)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: user):
+  
+app/controllers/api/v1/users_controller.rb:49:in `user_params'
+app/controllers/api/v1/users_controller.rb:17:in `create'
+Started POST "/api/v1/users" for ::1 at 2024-04-29 12:25:50 +0530
+Processing by Api::V1::UsersController#create as */*
+  Parameters: {"users"=>{"username"=>"Thompson", "password"=>"[FILTERED]"}, "user"=>{}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/api/v1/users_controller.rb:19:in `create'
+  [1m[36mUser Create (7.5ms)[0m  [1m[32mINSERT INTO "users" ("username", "password", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["username", "Thompson"], ["password", "[FILTERED]"], ["created_at", "2024-04-29 06:55:53.081067"], ["updated_at", "2024-04-29 06:55:53.081067"]]
+  ↳ app/controllers/api/v1/users_controller.rb:19:in `create'
+  [1m[36mTRANSACTION (3.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/api/v1/users_controller.rb:19:in `create'
+Completed 201 Created in 23ms (Views: 0.7ms | ActiveRecord: 14.5ms | Allocations: 4734)
+
+
+Started PATCH "/api/v1/users" for ::1 at 2024-04-29 12:43:15 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users"):
+  
+Started PATCH "/api/v1/users/2" for ::1 at 2024-04-29 12:44:04 +0530
+Processing by Api::V1::UsersController#update as */*
+  Parameters: {"users"=>{"username"=>"Thompson", "password"=>"[FILTERED]"}, "id"=>"2", "user"=>{}}
+  [1m[36mUser Load (6.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/users_controller.rb:44:in `set_user'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/api/v1/users_controller.rb:28:in `update'
+  [1m[36mUser Update (2.2ms)[0m  [1m[33mUPDATE "users" SET "password" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["password", "[FILTERED]"], ["updated_at", "2024-04-29 07:14:04.130845"], ["id", 2]]
+  ↳ app/controllers/api/v1/users_controller.rb:28:in `update'
+  [1m[36mTRANSACTION (7.2ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/api/v1/users_controller.rb:28:in `update'
+Completed 200 OK in 27ms (Views: 0.9ms | ActiveRecord: 21.7ms | Allocations: 2712)
+
+
+Started POST "/api/v1/users/2/facts" for ::1 at 2024-04-29 12:56:40 +0530
+Processing by Api::V1::FactsController#create as */*
+  Parameters: {"facts"=>{"user_id"=>2, "fact"=>"Remember who you wanted to be.", "likes"=>13}, "user_id"=>"2", "fact"=>{}}
+  [1m[36mUser Load (6.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:20:in `create'
+  [1m[36mFact Create (2.7ms)[0m  [1m[32mINSERT INTO "facts" ("user_id", "fact", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["user_id", 2], ["fact", "Remember who you wanted to be."], ["likes", 13], ["created_at", "2024-04-29 07:26:40.415603"], ["updated_at", "2024-04-29 07:26:40.415603"]]
+  ↳ app/controllers/api/v1/facts_controller.rb:20:in `create'
+  [1m[36mTRANSACTION (6.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:20:in `create'
+Completed 201 Created in 33ms (Views: 1.1ms | ActiveRecord: 19.1ms | Allocations: 5195)
+
+
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-29 12:56:50 +0530
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 6ms (Views: 3.6ms | ActiveRecord: 0.3ms | Allocations: 1426)
+
+
+Started GET "/api/v1/users/2/facts" for ::1 at 2024-04-29 12:57:04 +0530
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"2"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.1ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 2]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 2.9ms | ActiveRecord: 0.3ms | Allocations: 1107)
+
+
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-29 13:04:02 +0530
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (5.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 19ms (Views: 9.9ms | ActiveRecord: 9.8ms | Allocations: 1468)
+
+
+Started GET "/api/v1/users/2/facts" for ::1 at 2024-04-29 13:18:21 +0530
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"2"}
+  [1m[36mUser Load (6.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 2]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 13ms (Views: 2.7ms | ActiveRecord: 11.9ms | Allocations: 1395)
+
+
+Started PATCH "/api/v1/users/2/facts" for ::1 at 2024-04-29 13:31:06 +0530
+  
+ActionController::RoutingError (No route matches [PATCH] "/api/v1/users/2/facts"):
+  
+Started PATCH "/api/v1/users/2/facts/1" for ::1 at 2024-04-29 13:31:42 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"facts"=>{"user_id"=>2, "likes"=>20}, "user_id"=>"2", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (3.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 2], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:51:in `set_fact'
+Completed 404 Not Found in 9ms (ActiveRecord: 6.4ms | Allocations: 1498)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Fact with 'id'=1 [WHERE "facts"."user_id" = ?]):
+  
+app/controllers/api/v1/facts_controller.rb:51:in `set_fact'
+Started PATCH "/api/v1/users/1/facts/1" for ::1 at 2024-04-29 13:32:39 +0530
+Processing by Api::V1::FactsController#update as */*
+  Parameters: {"facts"=>{"user_id"=>1, "likes"=>20}, "user_id"=>"1", "id"=>"1", "fact"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.1ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:51:in `set_fact'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:29:in `update'
+  [1m[36mFact Update (5.4ms)[0m  [1m[33mUPDATE "facts" SET "likes" = ?, "updated_at" = ? WHERE "facts"."id" = ?[0m  [["likes", 20], ["updated_at", "2024-04-29 08:02:39.741473"], ["id", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:29:in `update'
+  [1m[36mTRANSACTION (3.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:29:in `update'
+Completed 200 OK in 25ms (Views: 0.6ms | ActiveRecord: 9.3ms | Allocations: 2681)
+
+
+Started DELETE "/api/v1/users/1/facts/2" for ::1 at 2024-04-29 13:34:17 +0530
+Processing by Api::V1::FactsController#destroy as */*
+  Parameters: {"user_id"=>"1", "id"=>"2"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.1ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:51:in `set_fact'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:38:in `destroy'
+  [1m[36mFact Destroy (1.7ms)[0m  [1m[31mDELETE FROM "facts" WHERE "facts"."id" = ?[0m  [["id", 2]]
+  ↳ app/controllers/api/v1/facts_controller.rb:38:in `destroy'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:38:in `destroy'
+Completed 204 No Content in 12ms (Views: 0.1ms | ActiveRecord: 2.2ms | Allocations: 2266)
+
+
+Started GET "/api/v1/users" for ::1 at 2024-04-30 12:47:05 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V1::UsersController#index as HTML
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 294ms (Views: 102.6ms | ActiveRecord: 14.6ms | Allocations: 19741)
+
+
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-30 12:57:42 +0530
+Processing by Api::V1::FactsController#index as HTML
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (4.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 102ms (Views: 58.3ms | ActiveRecord: 8.8ms | Allocations: 11102)
+
+
+Started GET "/api/v1/users/2/facts" for ::1 at 2024-04-30 12:57:56 +0530
+Processing by Api::V1::FactsController#index as HTML
+  Parameters: {"user_id"=>"2"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 2]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 9ms (Views: 5.8ms | ActiveRecord: 0.2ms | Allocations: 1110)
+
+
+Started GET "/api/v1/users" for ::1 at 2024-04-30 13:05:01 +0530
+Processing by Api::V1::UsersController#index as */*
+  Parameters: {"facts"=>{"user_id"=>1, "content"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}, "user"=>{}}
+  [1m[36mUser Load (5.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 9ms (Views: -1.0ms | ActiveRecord: 9.8ms | Allocations: 955)
+
+
+Started GET "/api/v1/users" for ::1 at 2024-04-30 13:07:25 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V1::UsersController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 146ms (Views: 44.8ms | ActiveRecord: 7.9ms | Allocations: 19741)
+
+
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-30 13:07:37 +0530
+Processing by Api::V1::FactsController#index as HTML
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 69ms (Views: 35.7ms | ActiveRecord: 1.1ms | Allocations: 10855)
+
+
+Started GET "/api/v1/users" for ::1 at 2024-04-30 13:08:06 +0530
+Processing by Api::V1::UsersController#index as */*
+  Parameters: {"facts"=>{"user_id"=>1, "content"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}, "user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 4ms (Views: 3.9ms | ActiveRecord: 0.1ms | Allocations: 697)
+
+
+Started POST "/api/v1/users" for ::1 at 2024-04-30 13:08:24 +0530
+Processing by Api::V1::UsersController#create as */*
+  Parameters: {"users"=>{"username"=>"Justin", "password"=>"[FILTERED]"}, "user"=>{}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/api/v1/users_controller.rb:19:in `create'
+  [1m[36mUser Create (3.7ms)[0m  [1m[32mINSERT INTO "users" ("username", "password", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["username", "Justin"], ["password", "[FILTERED]"], ["created_at", "2024-04-30 07:38:24.447867"], ["updated_at", "2024-04-30 07:38:24.447867"]]
+  ↳ app/controllers/api/v1/users_controller.rb:19:in `create'
+  [1m[36mTRANSACTION (2.8ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/api/v1/users_controller.rb:19:in `create'
+Completed 201 Created in 23ms (Views: 1.5ms | ActiveRecord: 6.6ms | Allocations: 2368)
+
+
+Started GET "/api/v1/users" for ::1 at 2024-04-30 13:08:29 +0530
+Processing by Api::V1::UsersController#index as */*
+  Parameters: {"facts"=>{"user_id"=>1, "content"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}, "user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 5ms (Views: 5.1ms | ActiveRecord: 0.1ms | Allocations: 743)
+
+
+Started PATCH "/api/v1/users/3" for ::1 at 2024-04-30 13:09:00 +0530
+Processing by Api::V1::UsersController#update as */*
+  Parameters: {"users"=>{"username"=>"Justin", "password"=>"[FILTERED]"}, "id"=>"3", "user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/users_controller.rb:44:in `set_user'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/api/v1/users_controller.rb:28:in `update'
+  [1m[36mUser Update (6.6ms)[0m  [1m[33mUPDATE "users" SET "password" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["password", "[FILTERED]"], ["updated_at", "2024-04-30 07:39:00.609027"], ["id", 3]]
+  ↳ app/controllers/api/v1/users_controller.rb:28:in `update'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/api/v1/users_controller.rb:28:in `update'
+Completed 200 OK in 18ms (Views: 1.3ms | ActiveRecord: 6.9ms | Allocations: 2268)
+
+
+Started GET "/api/v1/users" for ::1 at 2024-04-30 13:09:05 +0530
+Processing by Api::V1::UsersController#index as */*
+  Parameters: {"facts"=>{"user_id"=>1, "content"=>"Wiley Hardeman Post was the first pilot to fly solo around the world.", "likes"=>13}, "user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+Completed 200 OK in 7ms (Views: 6.7ms | ActiveRecord: 0.2ms | Allocations: 743)
+
+
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-30 13:09:17 +0530
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.1ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 8ms (Views: 3.9ms | ActiveRecord: 0.2ms | Allocations: 1096)
+
+
+Started POST "/api/v1/users/2/facts" for ::1 at 2024-04-30 13:09:40 +0530
+Processing by Api::V1::FactsController#create as */*
+  Parameters: {"facts"=>{"user_id"=>1, "fact"=>"Remember who you wanted to be.", "likes"=>132}, "user_id"=>"2", "fact"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:20:in `create'
+  [1m[36mFact Create (2.2ms)[0m  [1m[32mINSERT INTO "facts" ("user_id", "fact", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["user_id", 2], ["fact", "Remember who you wanted to be."], ["likes", 132], ["created_at", "2024-04-30 07:39:40.493223"], ["updated_at", "2024-04-30 07:39:40.493223"]]
+  ↳ app/controllers/api/v1/facts_controller.rb:20:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/api/v1/facts_controller.rb:20:in `create'
+Completed 201 Created in 14ms (Views: 1.0ms | ActiveRecord: 2.7ms | Allocations: 2401)
+
+
+Started GET "/api/v1/users/1/facts" for ::1 at 2024-04-30 13:09:50 +0530
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.1ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 9ms (Views: 5.3ms | ActiveRecord: 0.4ms | Allocations: 1095)
+
+
+Started GET "/api/v1/users/2/facts" for ::1 at 2024-04-30 13:10:01 +0530
+Processing by Api::V1::FactsController#index as */*
+  Parameters: {"user_id"=>"2"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.1ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ?[0m  [["user_id", 2]]
+  ↳ app/controllers/api/v1/facts_controller.rb:8:in `index'
+Completed 200 OK in 7ms (Views: 2.9ms | ActiveRecord: 0.5ms | Allocations: 1169)
+
+
+Started DELETE "/api/v1/users/1/facts/4" for ::1 at 2024-04-30 13:10:15 +0530
+Processing by Api::V1::FactsController#destroy as */*
+  Parameters: {"user_id"=>"1", "id"=>"4"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:46:in `set_user'
+  [1m[36mFact Load (0.2ms)[0m  [1m[34mSELECT "facts".* FROM "facts" WHERE "facts"."user_id" = ? AND "facts"."id" = ? LIMIT ?[0m  [["user_id", 1], ["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/facts_controller.rb:51:in `set_fact'
+Completed 404 Not Found in 8ms (ActiveRecord: 0.3ms | Allocations: 1231)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Fact with 'id'=4 [WHERE "facts"."user_id" = ?]):
+  
+app/controllers/api/v1/facts_controller.rb:51:in `set_fact'
